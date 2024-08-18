@@ -4,6 +4,7 @@ import { Route, Routes as Switch } from "react-router-dom";
 import PrivateRoute from "./Route";
 
 import Login from "../pages/Login";
+import Dashboard from "../pages/Dashboard";
 
 const Routes: React.FC = () => (
   <Switch>
@@ -13,7 +14,7 @@ const Routes: React.FC = () => (
     />
     <Route
       path="/dashboard"
-      element={<PrivateRoute isPrivate={true} element={<h1 />} />}
+      element={<PrivateRoute isPrivate={true} element={<Dashboard />} />}
     />
   </Switch>
 );
