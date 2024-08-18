@@ -17,9 +17,15 @@ interface ModalProps {
   slots: DayData[] | [];
   isOpen: boolean;
   onClose: () => void;
+  onClick: (id: string) => void;
 }
 
-const ModalReserveSlot: React.FC<ModalProps> = ({ isOpen, onClose, slots }) => {
+const ModalReserveSlot: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  slots,
+  onClick,
+}) => {
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -44,7 +50,14 @@ const ModalReserveSlot: React.FC<ModalProps> = ({ isOpen, onClose, slots }) => {
               <ScheduleList>
                 {slot.hours.map((hour) => (
                   <ScheduleItem key={hour.id}>
-                    {hour.startTime}h - {hour.endTime}h<Button>Agendar</Button>
+                    {hour.startTime}h - {hour.endTime}h
+                    <Button
+                      disabled={hour.isScheduled ? true : false}
+                      onClick={() => onClick(hour.id)}
+                    >
+                      {" "}
+                      {hour.isScheduled ? "Agendado" : "Agendar"}
+                    </Button>
                   </ScheduleItem>
                 ))}
               </ScheduleList>

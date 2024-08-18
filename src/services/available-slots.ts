@@ -25,6 +25,7 @@ interface Hour {
   id: string;
   startTime: string;
   endTime: string;
+  isScheduled: boolean;
 }
 
 export interface DayData {
@@ -39,6 +40,7 @@ interface DataItem {
   endTime: string;
   capacity: number;
   booked: number;
+  isScheduled: boolean;
 }
 
 
@@ -85,7 +87,8 @@ export class AvailableSlotsService {
     acc[dateStr].hours.push({
       id: item.id,
       startTime: startDate.toFormat('HH:mm'),
-      endTime: endDate.toFormat('HH:mm')
+      endTime: endDate.toFormat('HH:mm'),
+      isScheduled: item.isScheduled
     });
 
     return acc;
