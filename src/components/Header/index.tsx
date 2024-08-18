@@ -27,7 +27,11 @@ const Profile: React.FC = React.memo(() => {
   );
 });
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  children?: React.ReactNode;
+}
+
+const Header: React.FC<HeaderProps> = ({ children }) => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawer = useCallback(() => {
@@ -38,7 +42,7 @@ const Header: React.FC = () => {
     <Container>
       <HeaderContent>
         <FaStethoscope color="#18A0FB" size={25} />
-        {/* <h1>Nurse Alguma coisa</h1> */}
+        <h1>Nurse Alguma coisa</h1>
       </HeaderContent>
 
       <HeaderContent>
@@ -50,6 +54,8 @@ const Header: React.FC = () => {
       </HeaderContent>
 
       {isDrawerOpen && <Drawer onClose={toggleDrawer} />}
+
+      {children}
     </Container>
   );
 };
