@@ -1,17 +1,26 @@
-import { http } from '../http';
+import axios, { AxiosInstance } from 'axios';
 import { IUser } from '../interfaces/user';
-import { toast } from 'react-toastify'
+export class AuthService {
+	private api: AxiosInstance;
+	
+  constructor() {
+    this.api = axios.create({
+      baseURL: 'http://localhost:3000',
+			headers: {
+				Accept: 'application/json',
+			},
+    })
 
-const login = async (body: {email: string, password: string}) => {
-		const { data } = await http.post<{
+    this.api.defaults.timeout = 30000
+  }
+
+	async login(body: {email: string, password: string}) {
+		const { data } = await this.api.post<{
 			accessToken: string;
 			refreshToken: string;
 			user: IUser
 		}>(`/api/auth/login`, body);
 
 		return data;
-};
-
-export const authService = {
-	login,
-};
+	}
+}

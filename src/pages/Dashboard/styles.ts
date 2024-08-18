@@ -26,7 +26,7 @@ export const Content = styled.main`
   flex-direction: column;
   justify-content: center;  /* Alinha horizontalmente */
   margin: 64px auto;
-  max-width: 1120px;
+  width: 1120px;
 `;
 
 export const ListCards = styled.main`

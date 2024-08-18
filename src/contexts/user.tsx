@@ -1,8 +1,8 @@
 import { createContext, useCallback, useState } from "react";
-import { authService } from "../services/auth";
+import { AuthService } from "../services/auth";
 import { IUser } from "../interfaces/user";
 import { toast } from "react-toastify";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 interface ProviderProps {
   children: React.ReactNode;
@@ -21,6 +21,7 @@ export const UserContext = createContext<UserContextType>(
 UserContext.displayName = "UserContext";
 
 export const UserProvider = ({ children }: ProviderProps) => {
+  const authService = new AuthService();
   const [user, setUser] = useState<IUser | null>(() => {
     const user = localStorage.getItem("@mycareforce:user");
 
