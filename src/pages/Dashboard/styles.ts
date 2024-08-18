@@ -26,13 +26,13 @@ export const Content = styled.main`
   flex-direction: column;
   justify-content: center;  /* Alinha horizontalmente */
   margin: 64px auto;
-  width: 1120px;
+  max-width: 1120px;
 `;
 
 export const ListCards = styled.main`
   flex: 1;
   display: flex;
-  justify-content: center;  /* Alinha horizontalmente */
+  justify-content: center; 
   flex-wrap: wrap;
   max-width: 1120px;
 `;

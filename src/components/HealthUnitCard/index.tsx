@@ -12,9 +12,14 @@ import {
 interface HealthUnitCardProps {
   name: string;
   address: string;
+  onClick: () => void;
 }
 
-const HealthUnitCard: React.FC<HealthUnitCardProps> = ({ name, address }) => {
+const HealthUnitCard: React.FC<HealthUnitCardProps> = ({
+  name,
+  address,
+  onClick,
+}) => {
   return (
     <CardContainer>
       <CardImage
@@ -26,7 +31,7 @@ const HealthUnitCard: React.FC<HealthUnitCardProps> = ({ name, address }) => {
       <CardContent>
         <CardTitle>{name}</CardTitle>
         <CardAddress>{address}</CardAddress>
-        <CardButton>Ver horários</CardButton>
+        <CardButton onClick={onClick}>Ver horários</CardButton>
       </CardContent>
     </CardContainer>
   );

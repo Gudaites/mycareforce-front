@@ -1,6 +1,4 @@
-import React, { useRef, useCallback } from "react";
-import { FiLogIn, FiMail, FiLock } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import React from "react";
 
 import { useUser } from "../../hooks/user";
 import {
