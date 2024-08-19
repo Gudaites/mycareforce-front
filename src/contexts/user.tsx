@@ -45,7 +45,7 @@ export const UserProvider = ({ children }: ProviderProps) => {
           localStorage.setItem(
             "@mycareforce:user",
             JSON.stringify(userResponse)
-          ); // Corrigido para userResponse
+          );
 
           setUser(userResponse);
         }

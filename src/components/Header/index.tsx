@@ -11,7 +11,6 @@ import {
 import { useUser } from "../../hooks/user";
 import Drawer from "../Drawer";
 
-// Componente para o perfil
 const Profile: React.FC = React.memo(() => {
   const { user } = useUser();
 

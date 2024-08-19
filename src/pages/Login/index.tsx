@@ -42,7 +42,6 @@ const SignIn: React.FC = () => {
             />
             <input
               {...register("password", { required: "Senha é obrigatória" })}
-              // icon={FiLock}
               type="password"
               placeholder="Senha"
             />

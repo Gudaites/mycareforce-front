@@ -10,12 +10,13 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import ListHealthUnits from "./ListHealthUnits";
 import PaginateButton from "../../components/PaginateButton";
+import { useRegistration } from "../../hooks/registration";
 
 const Dashboard: React.FC = () => {
   const healthUnitsService = new HealthUnitsService();
   const availableSlotsService = new AvailableSlotsService();
   const registrationService = new RegistrationService();
-
+  const { fetchRegistrations } = useRegistration();
   const [units, setUnits] = useState<HealthUnit[]>([]);
   const [slotId, setSlotId] = useState<string | null>();
   const [slots, setSlots] = useState<DayData[]>([]);
@@ -24,6 +25,7 @@ const Dashboard: React.FC = () => {
   const [isLoadingHealthUnits, setIsLoadingHealthUnits] =
     useState<boolean>(true);
   const [skip, setSkip] = useState(0);
+  const [total, setTotal] = useState(0);
 
   const fetchHealthUnits = useCallback(async () => {
     setIsLoadingHealthUnits(true);
@@ -31,6 +33,7 @@ const Dashboard: React.FC = () => {
     setUnits(units.concat(data.healthUnits));
 
     if (data.total > skip) {
+      setTotal(data.total);
       setSkip(skip + 10);
     }
 
@@ -55,6 +58,7 @@ const Dashboard: React.FC = () => {
         setIsLoadingAvailableSlots(true);
         await registrationService.registerInterest(id);
 
+        fetchRegistrations();
         if (slotId) {
           await fetchAvailableSlotsData(slotId);
         }
@@ -105,7 +109,7 @@ const Dashboard: React.FC = () => {
         onClick={handleSchedule}
         isLoading={isLoadingAvailableSlots}
       ></ModalReserveSlot>
-      {skip <= units.length && !isLoadingHealthUnits && (
+      {skip < total && !isLoadingHealthUnits && (
         <PaginateButton onClick={() => fetchHealthUnits()} />
       )}
     </Container>

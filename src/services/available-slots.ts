@@ -8,8 +8,6 @@ export interface HealthUnit {
   address: string;
   next_slot_time: Date;
 }
-
-// Interface para cada horário
 interface Hour {
   id: string;
   startTime: string;

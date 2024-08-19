@@ -1,9 +1,9 @@
 /* Drawer.tsx */
 import React from "react";
+import { uuidv7 } from "uuidv7";
 import {
   DrawerOverlay,
   DrawerContainer,
-  DrawerContent,
   ContentWrapper,
   Title,
 } from "./styles";
@@ -29,16 +29,15 @@ const Drawer: React.FC<DrawerProps> = ({ onClose }) => {
           <h1>Meus Horarios</h1>
         </Title>
         <ContentWrapper>
-          {registrations?.map((item, index) => (
+          {registrations?.map((item) => (
             <ListDate
-              key={index}
+              key={uuidv7()}
               slot={{
                 ...item,
                 hours: item.hours.map((item) => {
                   return { ...item, isScheduled: true };
                 }),
               }}
-              onClick={() => console.log("")}
             />
           ))}
         </ContentWrapper>

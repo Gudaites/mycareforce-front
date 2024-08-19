@@ -1,4 +1,5 @@
 import React from "react";
+import { uuidv7 } from "uuidv7";
 import {
   Overlay,
   ModalContainer,
@@ -50,8 +51,8 @@ const ModalReserveSlot: React.FC<ModalProps> = ({
           </>
         ) : (
           <ContentWrapper>
-            {slots.map((item, index) => (
-              <ListDate key={index} slot={item} onClick={onClick} />
+            {slots.map((item) => (
+              <ListDate key={uuidv7()} slot={item} onClick={onClick} />
             ))}
           </ContentWrapper>
         )}

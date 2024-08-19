@@ -10,11 +10,10 @@ import {
 
 interface ListDateProps {
   slot: DayData;
-  onClick: (id: string) => void;
+  onClick?: (id: string) => void;
 }
 
 const ListDate: React.FC<ListDateProps> = ({ slot, onClick }) => {
-  console.log(slot);
   return (
     <div key={slot.date}>
       <TitleContent>
@@ -27,7 +26,7 @@ const ListDate: React.FC<ListDateProps> = ({ slot, onClick }) => {
             {hour.startTime}h - {hour.endTime}h
             <Button
               disabled={hour.isScheduled}
-              onClick={() => onClick(hour.id)}
+              onClick={onClick ? () => onClick(hour.id) : () => {}}
             >
               {hour.isScheduled ? "Agendado" : "Agendar"}
             </Button>
