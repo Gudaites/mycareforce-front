@@ -1,3 +1,4 @@
+import { RegistrationProvider } from "./registration";
 import { UserProvider } from "./user";
 
 export const ContextsProvider = ({
@@ -5,5 +6,9 @@ export const ContextsProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  return <UserProvider>{children}</UserProvider>;
+  return (
+    <UserProvider>
+      <RegistrationProvider>{children}</RegistrationProvider>
+    </UserProvider>
+  );
 };

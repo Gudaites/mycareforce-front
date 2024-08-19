@@ -1,4 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
+import { toast } from 'react-toastify';
+import { DataItem } from './available-slots';
+import { transformData } from '../utils/transformDatas';
 
 export interface IPostRegistrationResponse {
   id: string;
@@ -20,6 +23,19 @@ export class RegistrationService {
     })
 
     this.api.defaults.timeout = 30000
+
+    this.api.interceptors.response.use(
+			(response) => response,
+			async (error) => {
+				if (error?.response?.data?.statusCode === 401) {
+          localStorage.removeItem("@mycareforce:token");
+          localStorage.removeItem("@mycareforce:refresh-token");
+          localStorage.removeItem("@mycareforce:user");
+				} else {
+          toast.error('Erro Interno')
+				}
+			},
+		);
   }
 
 	async registerInterest(availableSlotId: string) {
@@ -29,4 +45,11 @@ export class RegistrationService {
 
 		return data;
 	}
+
+  async getAllRegistrarions() {
+		const { data } = await this.api.get<DataItem[]>('/api/registrations');
+
+		return transformData(data);
+
+  }
 }

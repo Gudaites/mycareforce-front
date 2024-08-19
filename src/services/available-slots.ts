@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
-import { DateTime } from 'luxon';
+import { toast } from 'react-toastify';
+import { transformData } from '../utils/transformDatas';
 
 export interface HealthUnit {
   id: string;
@@ -7,18 +8,6 @@ export interface HealthUnit {
   address: string;
   next_slot_time: Date;
 }
-
-type DayOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
-
-const dayOfWeekMap: Record<DayOfWeek, string> = {
-  'Monday': 'Segunda-feira',
-  'Tuesday': 'Terça-feira',
-  'Wednesday': 'Quarta-feira',
-  'Thursday': 'Quinta-feira',
-  'Friday': 'Sexta-feira',
-  'Saturday': 'Sábado',
-  'Sunday': 'Domingo'
-};
 
 // Interface para cada horário
 interface Hour {
@@ -34,7 +23,7 @@ export interface DayData {
   hours: Hour[];
 }
 
-interface DataItem {
+export interface DataItem {
   id: string;
   startTime: string;
   endTime: string;
@@ -57,43 +46,24 @@ export class AvailableSlotsService {
     })
 
     this.api.defaults.timeout = 30000
+
+    this.api.interceptors.response.use(
+			(response) => response,
+			async (error) => {
+				if (error?.response?.data?.statusCode === 401) {
+          localStorage.removeItem("@mycareforce:token");
+          localStorage.removeItem("@mycareforce:refresh-token");
+          localStorage.removeItem("@mycareforce:user");
+				} else {
+          toast.error('Erro Interno')
+				}
+			},
+		);
   }
 
 	async getAvailableSlotsByHealthUnitId(id: string) {
 		const { data } = await this.api.get<DataItem[]>(`/api/available-slots/${id}`);
 
-		return this.transformData(data);
+		return transformData(data);
 	}
-
-  private transformData(data: DataItem[]): DayData[] {
-  const timezone = 'America/Sao_Paulo';
-
-  const groupedByDate = data.reduce((acc: Record<string, DayData>, item: DataItem) => {
-    const startDate = DateTime.fromISO(item.startTime).setZone(timezone);
-    const endDate = DateTime.fromISO(item.endTime).setZone(timezone);
-
-    const dateStr = startDate.toFormat('dd/MM/yyyy');
-    const dayOfWeekEnglish = startDate.toFormat('cccc') as DayOfWeek;
-    const dayOfWeek = dayOfWeekMap[dayOfWeekEnglish] || dayOfWeekEnglish;
-
-    if (!acc[dateStr]) {
-      acc[dateStr] = {
-        date: dateStr,
-        dayOfWeek: dayOfWeek,
-        hours: []
-      };
-    }
-
-    acc[dateStr].hours.push({
-      id: item.id,
-      startTime: startDate.toFormat('HH:mm'),
-      endTime: endDate.toFormat('HH:mm'),
-      isScheduled: item.isScheduled
-    });
-
-    return acc;
-  }, {});
-
-  return Object.values(groupedByDate);
-};
 }

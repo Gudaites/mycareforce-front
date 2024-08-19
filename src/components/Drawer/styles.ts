@@ -20,11 +20,27 @@ export const DrawerOverlay = styled.div`
   z-index: 999;
 `;
 
+export const Title = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 20px 0 20px 0;
+
+  h1 {
+    font-size: 24px;
+    font-weight: 600;
+  }
+`;
+
 export const DrawerContainer = styled.div`
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
   position: fixed;
   right: 0;
   top: 0;
-  width: 300px;
+  width: 350px;
   height: 100%;
   background-color: #fff;
   /* box-shadow: -2px 0 5px rgba(0, 0, 0, 0.4); */
@@ -34,6 +50,16 @@ export const DrawerContainer = styled.div`
   animation: ${slideIn} 0.2s ease-out;
 `;
 
-export const DrawerContent = styled.div`
-  padding: 20px;
+
+export const ContentWrapper = styled.div`
+  overflow-y: scroll;
+  flex-grow: 1;
+
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 `;

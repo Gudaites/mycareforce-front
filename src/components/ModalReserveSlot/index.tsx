@@ -2,17 +2,12 @@ import React from "react";
 import {
   Overlay,
   ModalContainer,
-  TitleContent,
-  DayTitle,
-  ScheduleList,
-  ScheduleItem,
-  DateTitle,
   Title,
   ContentWrapper,
   SkeletonItem,
 } from "./styles";
 import { DayData } from "../../services/available-slots";
-import Button from "../Button";
+import ListDate from "../ListDate";
 
 interface ModalProps {
   slots: DayData[] | [];
@@ -41,7 +36,7 @@ const ModalReserveSlot: React.FC<ModalProps> = ({
     <Overlay onClick={handleOverlayClick}>
       <ModalContainer>
         <Title>
-          <h1>Horarios Disponíveis</h1>
+          <h1>Horários Disponíveis</h1>
         </Title>
         {isLoading ? (
           <>
@@ -55,26 +50,8 @@ const ModalReserveSlot: React.FC<ModalProps> = ({
           </>
         ) : (
           <ContentWrapper>
-            {slots.map((slot) => (
-              <div key={slot.date}>
-                <TitleContent>
-                  <DayTitle>{slot.dayOfWeek}</DayTitle>
-                  <DateTitle>{slot.date}</DateTitle>
-                </TitleContent>
-                <ScheduleList>
-                  {slot.hours.map((hour) => (
-                    <ScheduleItem key={hour.id}>
-                      {hour.startTime}h - {hour.endTime}h
-                      <Button
-                        disabled={hour.isScheduled}
-                        onClick={() => onClick(hour.id)}
-                      >
-                        {hour.isScheduled ? "Agendado" : "Agendar"}
-                      </Button>
-                    </ScheduleItem>
-                  ))}
-                </ScheduleList>
-              </div>
+            {slots.map((item, index) => (
+              <ListDate key={index} slot={item} onClick={onClick} />
             ))}
           </ContentWrapper>
         )}
