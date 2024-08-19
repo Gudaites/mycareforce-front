@@ -1,4 +1,3 @@
-/* Drawer.tsx */
 import React from "react";
 import { uuidv7 } from "uuidv7";
 import {

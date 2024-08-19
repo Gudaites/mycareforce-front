@@ -20,7 +20,7 @@ export const ModalContainer = styled.div`
   padding: 20px;
   width: 420px;
   max-width: 90%;
-  max-height: 618px; /* Definindo altura máxima */
+  max-height: 618px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;

@@ -101,6 +101,9 @@ const Dashboard: React.FC = () => {
           onClick={setSlotId}
           units={units || []}
         />
+        {skip < total && !isLoadingHealthUnits && (
+          <PaginateButton onClick={() => fetchHealthUnits()} />
+        )}
       </Content>
       <ModalReserveSlot
         isOpen={!!slotId}
@@ -108,10 +111,7 @@ const Dashboard: React.FC = () => {
         onClose={handleCloseModal}
         onClick={handleSchedule}
         isLoading={isLoadingAvailableSlots}
-      ></ModalReserveSlot>
-      {skip < total && !isLoadingHealthUnits && (
-        <PaginateButton onClick={() => fetchHealthUnits()} />
-      )}
+      />
     </Container>
   );
 };

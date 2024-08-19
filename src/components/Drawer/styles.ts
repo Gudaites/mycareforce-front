@@ -43,10 +43,8 @@ export const DrawerContainer = styled.div`
   width: 350px;
   height: 100%;
   background-color: #fff;
-  /* box-shadow: -2px 0 5px rgba(0, 0, 0, 0.4); */
   z-index: 1000;
 
-  /* Adicione a animação */
   animation: ${slideIn} 0.2s ease-out;
 `;
 

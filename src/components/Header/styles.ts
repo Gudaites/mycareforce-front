@@ -46,21 +46,18 @@ export const Info = styled.div`
   flex-direction: column;
   margin-left: 5px;
   line-height: 24px;
+  align-items: baseline;
 
   span {
     color: #f4ede8;
   }
 
-  a {
-    text-decoration: none;
+  strong {
+    color: #18A0FB;
+    font-weight: bold;
+  }
 
-    strong {
-      color: #18A0FB;
-      font-weight: bold;
-    }
-
-    &:hover {
-      opacity: 0.8;
-    }
+  &:hover {
+    opacity: 0.8;
   }
 `;

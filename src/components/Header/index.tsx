@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from "react";
 import { FaStethoscope, FaCalendar } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import Avatar from "react-nice-avatar";
 import {
   Container,
@@ -18,9 +17,7 @@ const Profile: React.FC = React.memo(() => {
     <ProfileContainer>
       <Avatar style={{ width: "2.5rem", height: "2.5rem" }} />
       <Info>
-        <Link to="/profile">
-          <strong>{user?.name}</strong>
-        </Link>
+        <strong>{user?.name}</strong>
       </Info>
     </ProfileContainer>
   );
@@ -31,10 +28,10 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ children }) => {
-  const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const toggleDrawer = useCallback(() => {
-    setDrawerOpen((prev) => !prev);
+    setIsDrawerOpen((prev) => !prev);
   }, []);
 
   return (

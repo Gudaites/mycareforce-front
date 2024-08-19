@@ -24,8 +24,9 @@ export const Container = styled.div`
 export const Content = styled.main`
   display: flex;
   flex-direction: column;
-  justify-content: center;  /* Alinha horizontalmente */
+  justify-content: center;
   margin: 64px auto;
+  padding-bottom: 64px;
   max-width: 1120px;
 `;
 
