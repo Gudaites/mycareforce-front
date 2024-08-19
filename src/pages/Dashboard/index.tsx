@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useState } from "react";
 import Header from "../../components/Header";
-import HealthUnitCard from "../../components/HealthUnitCard";
-import { TitleContent, Title, Container, Content, ListCards } from "./styles";
+import { TitleContent, Title, Container, Content } from "./styles";
 import {
   HealthUnitsService,
   IFindAllHealth,
@@ -12,6 +11,7 @@ import { AvailableSlotsService, DayData } from "../../services/available-slots";
 import { RegistrationService } from "../../services/registration";
 import { toast } from "react-toastify";
 import axios from "axios";
+import ListHealthUnits from "./ListHealthUnits";
 
 const Dashboard: React.FC = () => {
   const healthUnitsService = new HealthUnitsService();
@@ -27,8 +27,10 @@ const Dashboard: React.FC = () => {
     useState<boolean>(true);
 
   const fetchHealthUnits = useCallback(async () => {
+    setIsLoadingHealthUnits(true);
     const data = await healthUnitsService.findAll();
     setUnits(data);
+    setIsLoadingHealthUnits(false);
   }, []);
 
   const fetchAvailableSlotsData = useCallback(
@@ -86,16 +88,11 @@ const Dashboard: React.FC = () => {
         <TitleContent>
           <Title>Clinicas Disponiveis</Title>
         </TitleContent>
-        <ListCards>
-          {units?.map((item) => (
-            <HealthUnitCard
-              key={item.name + item.address}
-              name={item.name}
-              address={item.address}
-              onClick={() => setSlotId(item.id)}
-            />
-          ))}
-        </ListCards>
+        <ListHealthUnits
+          isLoading={isLoadingHealthUnits}
+          onClick={setSlotId}
+          units={units || []}
+        />
       </Content>
       <ModalReserveSlot
         isOpen={!!slotId}

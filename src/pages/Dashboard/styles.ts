@@ -28,11 +28,3 @@ export const Content = styled.main`
   margin: 64px auto;
   max-width: 1120px;
 `;
-
-export const ListCards = styled.main`
-  flex: 1;
-  display: flex;
-  justify-content: center; 
-  flex-wrap: wrap;
-  max-width: 1120px;
-`;

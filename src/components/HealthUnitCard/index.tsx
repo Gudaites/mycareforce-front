@@ -2,12 +2,12 @@
 import React from "react";
 import {
   CardAddress,
-  CardButton,
   CardContainer,
   CardContent,
   CardImage,
   CardTitle,
 } from "./styles";
+import Button from "../Button";
 
 interface HealthUnitCardProps {
   name: string;
@@ -31,7 +31,7 @@ const HealthUnitCard: React.FC<HealthUnitCardProps> = ({
       <CardContent>
         <CardTitle>{name}</CardTitle>
         <CardAddress>{address}</CardAddress>
-        <CardButton onClick={onClick}>Ver horários</CardButton>
+        <Button onClick={onClick}>Ver horários</Button>
       </CardContent>
     </CardContainer>
   );

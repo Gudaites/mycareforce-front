@@ -24,8 +24,11 @@ export const CardContent = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  height: 100%;
   box-sizing: border-box;
+
+  button {
+    height: 38px
+  }
 `;
 
 export const CardTitle = styled.h3`

@@ -3,7 +3,7 @@ import React, { ButtonHTMLAttributes } from "react";
 import { Container } from "./styles";
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  disabled: boolean;
+  disabled?: boolean;
   isLoading?: boolean;
 }
 

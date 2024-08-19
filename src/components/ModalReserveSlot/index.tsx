@@ -44,7 +44,7 @@ const ModalReserveSlot: React.FC<ModalProps> = ({
           <h1>Horarios Disponíveis</h1>
         </Title>
         {isLoading ? (
-          <ContentWrapper>
+          <>
             <SkeletonItem />
             <SkeletonItem />
             <SkeletonItem />
@@ -52,7 +52,7 @@ const ModalReserveSlot: React.FC<ModalProps> = ({
             <SkeletonItem />
             <SkeletonItem />
             <SkeletonItem />
-          </ContentWrapper>
+          </>
         ) : (
           <ContentWrapper>
             {slots.map((slot) => (
