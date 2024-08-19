@@ -26,19 +26,36 @@ export const HeaderContent = styled.div`
     margin-left: auto;
     background: transparent;
     border: 0;
-
-    svg {
-      color: #999591;
-      width: 20px;
-      height: 20px;
-    }
   }
+`;
+
+export const CalendarWrapper = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
+export const NotificationBadge = styled.span`
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 0;
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 20px;
 `;
 
 export const Profile = styled.div`
   display: flex;
   align-items: center;
   margin-left: 20px;
+  margin-right: 20px;
 `;
 
 export const Info = styled.div`

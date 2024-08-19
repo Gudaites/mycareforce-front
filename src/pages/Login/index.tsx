@@ -34,7 +34,7 @@ const SignIn: React.FC = () => {
       <Content>
         <AnimationContainer>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <h1>Nurse alguma coisa</h1>
+            <h1>Nurse</h1>
             <input
               {...register("email", { required: "E-mail é obrigatório" })}
               type="email"

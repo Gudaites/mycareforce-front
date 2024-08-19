@@ -1,14 +1,17 @@
 import React, { useState, useCallback } from "react";
-import { FaStethoscope, FaCalendar } from "react-icons/fa";
+import { FaStethoscope, FaRegCalendarAlt, FaSignOutAlt } from "react-icons/fa";
 import Avatar from "react-nice-avatar";
 import {
   Container,
   HeaderContent,
   Profile as ProfileContainer,
   Info,
+  CalendarWrapper,
+  NotificationBadge,
 } from "./styles";
 import { useUser } from "../../hooks/user";
 import Drawer from "../Drawer";
+import { useRegistration } from "../../hooks/registration";
 
 const Profile: React.FC = React.memo(() => {
   const { user } = useUser();
@@ -28,6 +31,8 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ children }) => {
+  const { registrations } = useRegistration();
+  const { signOut } = useUser();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const toggleDrawer = useCallback(() => {
@@ -38,15 +43,23 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
     <Container>
       <HeaderContent>
         <FaStethoscope color="#18A0FB" size={25} />
-        <h1>Nurse Alguma coisa</h1>
+        <h1>Nurse</h1>
       </HeaderContent>
 
       <HeaderContent>
         <button onClick={toggleDrawer} type="button">
-          <FaCalendar color="#18A0FB" />
+          <CalendarWrapper>
+            <FaRegCalendarAlt color="#18A0FB" size={25} />
+            <NotificationBadge>
+              {registrations.reduce((acc, curr) => acc + curr.hours.length, 0)}
+            </NotificationBadge>{" "}
+          </CalendarWrapper>
         </button>
 
         <Profile />
+        <button onClick={() => signOut()}>
+          <FaSignOutAlt color="#18A0FB" size={25} />
+        </button>
       </HeaderContent>
 
       {isDrawerOpen && <Drawer onClose={toggleDrawer} />}
