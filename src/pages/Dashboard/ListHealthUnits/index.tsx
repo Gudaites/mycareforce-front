@@ -1,9 +1,9 @@
 import HealthUnitCard from "../../../components/HealthUnitCard";
-import { IFindAllHealth } from "../../../services/health-units";
+import { HealthUnit } from "../../../services/health-units";
 import { ListCards, SkeletonItem } from "./styles";
 
 interface ListHealthUnitsProps {
-  units: IFindAllHealth[];
+  units: HealthUnit[];
   onClick: (id: string) => void;
   isLoading: boolean;
 }

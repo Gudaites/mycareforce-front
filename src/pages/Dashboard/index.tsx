@@ -2,36 +2,40 @@
 import { useCallback, useEffect, useState } from "react";
 import Header from "../../components/Header";
 import { TitleContent, Title, Container, Content } from "./styles";
-import {
-  HealthUnitsService,
-  IFindAllHealth,
-} from "../../services/health-units";
+import { HealthUnitsService, HealthUnit } from "../../services/health-units";
 import ModalReserveSlot from "../../components/ModalReserveSlot";
 import { AvailableSlotsService, DayData } from "../../services/available-slots";
 import { RegistrationService } from "../../services/registration";
 import { toast } from "react-toastify";
 import axios from "axios";
 import ListHealthUnits from "./ListHealthUnits";
+import PaginateButton from "../../components/PaginateButton";
 
 const Dashboard: React.FC = () => {
   const healthUnitsService = new HealthUnitsService();
   const availableSlotsService = new AvailableSlotsService();
   const registrationService = new RegistrationService();
 
-  const [units, setUnits] = useState<IFindAllHealth[]>([]);
+  const [units, setUnits] = useState<HealthUnit[]>([]);
   const [slotId, setSlotId] = useState<string | null>();
   const [slots, setSlots] = useState<DayData[]>([]);
   const [isLoadingAvailableSlots, setIsLoadingAvailableSlots] =
     useState<boolean>(true);
   const [isLoadingHealthUnits, setIsLoadingHealthUnits] =
     useState<boolean>(true);
+  const [skip, setSkip] = useState(0);
 
   const fetchHealthUnits = useCallback(async () => {
     setIsLoadingHealthUnits(true);
-    const data = await healthUnitsService.findAll();
-    setUnits(data);
+    const data = await healthUnitsService.findAll(skip);
+    setUnits(units.concat(data.healthUnits));
+
+    if (data.total > skip) {
+      setSkip(skip + 10);
+    }
+
     setIsLoadingHealthUnits(false);
-  }, []);
+  }, [skip]);
 
   const fetchAvailableSlotsData = useCallback(
     async (slotId: string) => {
@@ -50,7 +54,7 @@ const Dashboard: React.FC = () => {
       try {
         setIsLoadingAvailableSlots(true);
         await registrationService.registerInterest(id);
-        console.log(slotId);
+
         if (slotId) {
           await fetchAvailableSlotsData(slotId);
         }
@@ -101,6 +105,9 @@ const Dashboard: React.FC = () => {
         onClick={handleSchedule}
         isLoading={isLoadingAvailableSlots}
       ></ModalReserveSlot>
+      {skip <= units.length && !isLoadingHealthUnits && (
+        <PaginateButton onClick={() => fetchHealthUnits()} />
+      )}
     </Container>
   );
 };

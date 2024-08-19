@@ -10,10 +10,7 @@ import "react-toastify/dist/ReactToastify.min.css";
 const App: React.FC = () => (
   <ContextsProvider>
     <Router>
-      {/* <AppProvider> */}
       <Routes />
-      {/* </AppProvider> */}
-
       <GlobalStyle />
     </Router>
     <ToastContainer

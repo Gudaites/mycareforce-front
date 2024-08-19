@@ -28,3 +28,9 @@ export const Content = styled.main`
   margin: 64px auto;
   max-width: 1120px;
 `;
+
+export const PaginateContent = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`

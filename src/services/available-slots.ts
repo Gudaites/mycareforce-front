@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import { DateTime } from 'luxon';
 
-export interface IFindAllHealth {
+export interface HealthUnit {
   id: string;
   name: string;
   address: string;

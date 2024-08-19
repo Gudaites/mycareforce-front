@@ -1,6 +1,5 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
-
 import { useUser } from "../hooks/user";
 
 interface PrivateRouteProps {
@@ -22,7 +21,6 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   if (!isPrivate && user) {
     return <Navigate to="/dashboard" state={{ from: location }} />;
   }
-
   return element;
 };
 
