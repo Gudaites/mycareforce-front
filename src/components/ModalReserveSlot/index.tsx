@@ -9,6 +9,7 @@ import {
   DateTitle,
   Title,
   ContentWrapper,
+  SkeletonItem,
 } from "./styles";
 import { DayData } from "../../services/available-slots";
 import Button from "../Button";
@@ -18,6 +19,7 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   onClick: (id: string) => void;
+  isLoading: boolean;
 }
 
 const ModalReserveSlot: React.FC<ModalProps> = ({
@@ -25,6 +27,7 @@ const ModalReserveSlot: React.FC<ModalProps> = ({
   onClose,
   slots,
   onClick,
+  isLoading,
 }) => {
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -40,30 +43,41 @@ const ModalReserveSlot: React.FC<ModalProps> = ({
         <Title>
           <h1>Horarios Disponíveis</h1>
         </Title>
-        <ContentWrapper>
-          {slots.map((slot) => (
-            <div key={slot.date}>
-              <TitleContent>
-                <DayTitle>{slot.dayOfWeek}</DayTitle>
-                <DateTitle>{slot.date}</DateTitle>
-              </TitleContent>
-              <ScheduleList>
-                {slot.hours.map((hour) => (
-                  <ScheduleItem key={hour.id}>
-                    {hour.startTime}h - {hour.endTime}h
-                    <Button
-                      disabled={hour.isScheduled ? true : false}
-                      onClick={() => onClick(hour.id)}
-                    >
-                      {" "}
-                      {hour.isScheduled ? "Agendado" : "Agendar"}
-                    </Button>
-                  </ScheduleItem>
-                ))}
-              </ScheduleList>
-            </div>
-          ))}
-        </ContentWrapper>
+        {isLoading ? (
+          <ContentWrapper>
+            <SkeletonItem />
+            <SkeletonItem />
+            <SkeletonItem />
+            <SkeletonItem />
+            <SkeletonItem />
+            <SkeletonItem />
+            <SkeletonItem />
+          </ContentWrapper>
+        ) : (
+          <ContentWrapper>
+            {slots.map((slot) => (
+              <div key={slot.date}>
+                <TitleContent>
+                  <DayTitle>{slot.dayOfWeek}</DayTitle>
+                  <DateTitle>{slot.date}</DateTitle>
+                </TitleContent>
+                <ScheduleList>
+                  {slot.hours.map((hour) => (
+                    <ScheduleItem key={hour.id}>
+                      {hour.startTime}h - {hour.endTime}h
+                      <Button
+                        disabled={hour.isScheduled}
+                        onClick={() => onClick(hour.id)}
+                      >
+                        {hour.isScheduled ? "Agendado" : "Agendar"}
+                      </Button>
+                    </ScheduleItem>
+                  ))}
+                </ScheduleList>
+              </div>
+            ))}
+          </ContentWrapper>
+        )}
       </ModalContainer>
     </Overlay>
   );

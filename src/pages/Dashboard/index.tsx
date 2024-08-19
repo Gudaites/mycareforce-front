@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useState } from "react";
 import Header from "../../components/Header";
 import HealthUnitCard from "../../components/HealthUnitCard";
@@ -18,13 +19,39 @@ const Dashboard: React.FC = () => {
   const registrationService = new RegistrationService();
 
   const [units, setUnits] = useState<IFindAllHealth[]>([]);
-  const [slotId, setSlotId] = useState<string>();
+  const [slotId, setSlotId] = useState<string | null>();
   const [slots, setSlots] = useState<DayData[]>([]);
+  const [isLoadingAvailableSlots, setIsLoadingAvailableSlots] =
+    useState<boolean>(true);
+  const [isLoadingHealthUnits, setIsLoadingHealthUnits] =
+    useState<boolean>(true);
+
+  const fetchHealthUnits = useCallback(async () => {
+    const data = await healthUnitsService.findAll();
+    setUnits(data);
+  }, []);
+
+  const fetchAvailableSlotsData = useCallback(
+    async (slotId: string) => {
+      setIsLoadingAvailableSlots(true);
+      const data = await availableSlotsService.getAvailableSlotsByHealthUnitId(
+        slotId
+      );
+      setSlots(data);
+      setIsLoadingAvailableSlots(false);
+    },
+    [availableSlotsService]
+  );
 
   const handleSchedule = useCallback(
     async (id: string) => {
       try {
+        setIsLoadingAvailableSlots(true);
         await registrationService.registerInterest(id);
+        console.log(slotId);
+        if (slotId) {
+          await fetchAvailableSlotsData(slotId);
+        }
         toast.success("Interesse registrado com sucesso");
       } catch (error) {
         if (axios.isAxiosError(error)) {
@@ -34,28 +61,22 @@ const Dashboard: React.FC = () => {
         }
       }
     },
-    [slotId]
+    [registrationService, slotId, fetchAvailableSlotsData]
   );
+
+  const handleCloseModal = useCallback(async () => {
+    setIsLoadingAvailableSlots(true);
+    setSlotId(null);
+  }, []);
 
   useEffect(() => {
     if (slotId) {
-      const fetchData = async () => {
-        const data =
-          await availableSlotsService.getAvailableSlotsByHealthUnitId(slotId);
-        setSlots(data);
-      };
-
-      fetchData();
+      fetchAvailableSlotsData(slotId);
     }
   }, [slotId]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const data = await healthUnitsService.findAll();
-      setUnits(data);
-    };
-
-    fetchData();
+    fetchHealthUnits();
   }, []);
 
   return (
@@ -66,23 +87,22 @@ const Dashboard: React.FC = () => {
           <Title>Clinicas Disponiveis</Title>
         </TitleContent>
         <ListCards>
-          {units?.map((item) => {
-            return (
-              <HealthUnitCard
-                key={item.name + item.address}
-                name={item.name}
-                address={item.address}
-                onClick={() => setSlotId(item.id)}
-              />
-            );
-          })}
+          {units?.map((item) => (
+            <HealthUnitCard
+              key={item.name + item.address}
+              name={item.name}
+              address={item.address}
+              onClick={() => setSlotId(item.id)}
+            />
+          ))}
         </ListCards>
       </Content>
       <ModalReserveSlot
         isOpen={!!slotId}
         slots={slots}
-        onClose={() => setSlotId(undefined)}
+        onClose={handleCloseModal}
         onClick={handleSchedule}
+        isLoading={isLoadingAvailableSlots}
       ></ModalReserveSlot>
     </Container>
   );

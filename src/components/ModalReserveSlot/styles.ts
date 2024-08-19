@@ -90,3 +90,25 @@ export const ScheduleItem = styled.li`
   color: #000000;
   font-weight: 600;
 `;
+
+
+export const SkeletonItem = styled.div`
+  background-color: #ccc;
+  height: 60px;
+  width: 100%;
+  border-radius: 4px;
+  animation: pulse 1.5s infinite ease-in-out;
+  margin: 0 0 20px 0;
+
+  @keyframes pulse {
+    0% {
+      background-color: #eee;
+    }
+    50% {
+      background-color: #ddd;
+    }
+    100% {
+      background-color: #eee;
+    }
+  }
+`;
